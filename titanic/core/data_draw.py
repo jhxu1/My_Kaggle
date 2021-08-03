@@ -89,7 +89,6 @@ def draw_ticket(df):
 
 def draw_cabin(df):
     tmp_df = df
-    tmp_df["Cabin"] = tmp_df["Cabin"].apply(lambda s:s[0])
     count_df = tmp_df.groupby(["Cabin", "Survived"])["Cabin"].count().unstack()
     count_df = count_df.fillna(0)
     count_df["Ratio"]  = count_df[1] / (count_df[1] + count_df[0])
@@ -98,6 +97,27 @@ def draw_cabin(df):
     count_df.to_csv(save_path,sep=',')
     print("==============Analyze Cabin==============")
     print(count_df)
+
+    # draw
+    fig1, ax = plt.subplots()
+    # 经济水平和生还率的关系
+    width = 0.5
+    labels = count_df.index
+    ratio_data = count_df["Ratio"].values
+    x = np.arange(len(labels))  # the label locations
+    rects2 = ax.bar(x, ratio_data, width, alpha=0.5, color='yellow', edgecolor='red', lw=3)
+    ax.set_ylabel('Ratio')
+    ax.set_xlabel('Cabin')
+    ax.set_title('Survive rate vs Cabin')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.set_ylim(0, 0.9)
+
+    for a, b in zip(x, ratio_data):
+        plt.text(x=a, y=b, s="{:.2f}".format(b), ha='center', va='bottom', fontsize=10)
+
+    fig1.savefig(os.path.join(SAVE_ROOT, "./analyze_img/07_survive_cabin.png"))
+
 
 def draw_embarked(df):
     fig1, ax = plt.subplots()
