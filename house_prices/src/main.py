@@ -18,10 +18,20 @@ def main():
     train_df = processor.pipeline(train_df)
     test_df = processor.pipeline(test_df)
 
-    model = Model()
+    
     x_train, y_train = train_df.drop(columns=["SalePrice"]), train_df["SalePrice"]
-    score = model.rmsle_cv(model.lasso(), x_train, y_train)
-    print("\nLasso score: {:.4f} ({:.4f})\n".format(score.mean(), score.std()))
+
+    model = Model("lasso")
+    model.build(x_train, y_train)
+    x_test = test_df
+    y_test = model.predict(x_test)
+    print(y_train.mean())
+    print(y_test.mean())
+
+    for model_name in ["lasso", "enet", "krr"]:
+        model = Model(model_name)
+        score = model.rmsle_cv(x_train, y_train / 1e6)
+        print("\{} score: {:.4f} ({:.4f})\n".format(model_name, score.mean(), score.std()))
 
 if __name__ == "__main__":
     main()

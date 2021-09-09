@@ -10,8 +10,13 @@ import numpy as np
 
 
 class Model:
-    def __init__(self) -> None:
-        self.model = None
+    def __init__(self, model_name) -> None:
+        self.model = {
+            "lasso": self.lasso(),
+            "enet": self.enet(),
+            "krr": self.krr(),
+            "gboost": self.gboost()
+        }[model_name]
 
 
     def build(self, x_train, y_train):
@@ -20,10 +25,10 @@ class Model:
         self.model = pipe
         print("Build Success")
 
-    def rmsle_cv(self, model, x_train, y_train):
+    def rmsle_cv(self, x_train, y_train):
         n_folds = 5
         kf = KFold(n_folds, shuffle=True, random_state=42).get_n_splits(x_train.values)
-        rmse= np.sqrt(-cross_val_score(model, x_train.values, y_train, scoring="neg_mean_squared_error", cv = kf))
+        rmse= np.sqrt(-cross_val_score(self.model, x_train.values, y_train, scoring="neg_mean_squared_error", cv = kf))
         return(rmse)
 
     def lasso(self):
