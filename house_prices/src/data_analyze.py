@@ -84,7 +84,7 @@ class Drawer():
                 print("\033[1;31m [Error]\033[0m wrong discrete column {}".format(column))
 
     def _df_preprocess(self):
-        self.df["SalePrice"] = (self.df["SalePrice"] / 1e4).round(2)
+        self.df["SalePrice"] = (self.df["SalePrice"]).round(2)
         # 提出重复样本
         self.df.drop_duplicates()
     
@@ -105,7 +105,7 @@ class Drawer():
         p1 = ax.bar(x, sub_class_df["mean"].to_list(), width, yerr=sub_class_df["std"].to_list(), label=column)
 
         title = "{} vs. SalePrice".format(column)
-        ax.set_ylabel('SalePrice (1e-4 Pound)')
+        ax.set_ylabel('SalePrice (Pound)')
         ax.set_title(title)
         ax.set_xticks(x)
         ax.set_xticklabels(sub_class_df.index.to_list())
@@ -120,10 +120,10 @@ class Drawer():
         sub_df = self.df[[column, "SalePrice"]]
         sub_df = sub_df.sort_values(by=column, ascending=True)
 
-        p1 = plt.plot(sub_df[column], sub_df["SalePrice"])
+        # p1 = plt.plot(sub_df[column], sub_df["SalePrice"])
         p2 = plt.scatter(sub_df[column], sub_df["SalePrice"], color="red", marker="o", linewidths=0.2)
         title = '{} vs. SalePrice'.format(column)
-        ax.set_ylabel('SalePrice (1e-4 Pound)')
+        ax.set_ylabel('SalePrice (Pound)')
         ax.set_title(title)
         ax.set_xlabel(column)
         fig1.savefig(os.path.join(self.save_dir, "{}.png".format(title.replace(" ", "_"))))
@@ -155,6 +155,24 @@ def main():
     drawer = Drawer(train_df, save_dir)
     drawer.simple_draw()
 
+def log_draw():
+    src_dir = os.path.dirname(__file__)
+    root_dir = os.path.dirname(src_dir)
+    save_dir = os.path.join(root_dir, "log_analyze_data")
+    os.makedirs(save_dir, exist_ok=True)
+
+    train_df, test_df = Analyzer.load_df()
+
+    # simple process
+
+    train_df["SalePrice"] = np.log(train_df["SalePrice"])
+    # 删除离群点
+    train_df = train_df.drop(train_df[train_df["GrLivArea"] > 4000].index)
+    # train_df
+
+    drawer = Drawer(train_df, save_dir)
+    drawer.simple_draw()
+
 def test():
     src_dir = os.path.dirname(__file__)
     root_dir = os.path.dirname(src_dir)
@@ -172,4 +190,5 @@ def test():
 
 if __name__ == "__main__":
     # main()
-    test()
+    # test()
+    log_draw()

@@ -2,21 +2,21 @@ from matplotlib.pyplot import axis
 import pandas as pd
 import os
 import pdb
+import numpy as np
 
 from sklearn.preprocessing import LabelEncoder
 
 
 class DataProcessor():
-    def __init__(self) -> None:
-        pass
+    def __init__(self, mode) -> None:
+        self.mode = mode
 
     def pipeline(self, df):
         df = self._feature_screen(df)
         df = self._process_nan(df)
         return df
 
-    @staticmethod
-    def _feature_screen(df):
+    def _feature_screen(self, df):
         """根据分析做特征筛选"""
         print("\033[1;32m [Info]\033[0m Start feature screen, feature_num: {}, num: {}".format(df.columns.size, df.shape[0]))
         df["SeSold"] = df["MoSold"].apply(lambda x: (x-1) // 3)
@@ -25,9 +25,12 @@ class DataProcessor():
         df = df.drop(del_feature, axis=1)
 
         # 删除脏数据
-        df = df.dropna(thresh=int(df.columns.size * 0.9))
-        # df = df.dropna(subset=['SalePrice'])
-        df = df.drop_duplicates()
+        if self.mode == "train":
+            df = df.dropna(thresh=int(df.columns.size * 0.9))
+            # df = df.dropna(subset=['SalePrice'])
+            df = df.drop_duplicates()
+            df.drop(df[df["GrLivArea"] > 4000].index)
+            df["SalePrice"] = np.log(df["SalePrice"])
 
         print("\033[1;32m [Info]\033[0m Finish feature screen, feature_num: {}, num: {}".format(df.columns.size, df.shape[0]))
         return df

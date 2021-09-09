@@ -5,3 +5,5 @@ __pycache__
 
 *.zip
 upload*
+data
+*analyze_data

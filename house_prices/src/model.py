@@ -25,6 +25,11 @@ class Model:
         self.model = pipe
         print("Build Success")
 
+    # def scorer(self, model, X, y):
+    #     assert model == self.model
+    #     pred = self.predict(X)
+    #     return np.sqrt(np.sum((y - pred) ** 2))
+
     def rmsle_cv(self, x_train, y_train):
         n_folds = 5
         kf = KFold(n_folds, shuffle=True, random_state=42).get_n_splits(x_train.values)
@@ -48,4 +53,5 @@ class Model:
 
     def predict(self, x_test):
         y_pred = self.model.predict(x_test)
+        y_pred = np.exp(y_pred)
         return y_pred
