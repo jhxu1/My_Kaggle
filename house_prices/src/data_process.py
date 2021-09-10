@@ -16,6 +16,9 @@ class DataProcessor():
         df = self._process_nan(df)
         return df
 
+    def _normalize(self, df):
+        pass
+
     def _feature_screen(self, df):
         """根据分析做特征筛选"""
         print("\033[1;32m [Info]\033[0m Start feature screen, feature_num: {}, num: {}".format(df.columns.size, df.shape[0]))
@@ -66,6 +69,8 @@ class DataProcessor():
             else:
                 # 连续
                 df[column] = df[column].fillna(df[column].median())
+                # normalize
+                df[column] = (df[column] - df[column].min()) / (df[column].max() - df[column].min())
 
         print("\033[1;32m [Info]\033[0m Finish process nan, feature_num: {}, num: {}".format(df.columns.size, df.shape[0]))
         return df

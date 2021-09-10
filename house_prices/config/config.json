@@ -1,0 +1,7 @@
+{
+    "model": {
+        "average_model": {
+            "model_list": ["lasso", "enet", "krr"]
+        }
+    }
+}
