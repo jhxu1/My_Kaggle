@@ -10,6 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import pdb
+import math
 
 class Analyzer():
     core_dir = os.path.dirname(__file__)
@@ -43,6 +44,7 @@ class Drawer():
     def __init__(self, df, save_dir) -> None:
         self.df = df
         self.save_dir = save_dir
+        os.makedirs(self.save_dir, exist_ok=True)
 
         self.preprocess()
 
@@ -71,26 +73,43 @@ class Drawer():
 
 
     def simple_draw(self):
-        for column in self.con_feat:
+        col_num = 6
+        row_num = math.ceil(len(self.con_feat) / col_num) 
+        fig, axs = plt.subplots(row_num, col_num, figsize=(36, 24)) 
+        for idx, column in enumerate(self.con_feat):
+            row = idx // col_num
+            col = idx - row * col_num
             try:
-                self.draw_continue_feature(column)
+                self.draw_continue_feature(column, axs[row][col])
             except Exception as e:
                 print(e)
                 print("\033[1;31m [Error]\033[0m wrong continue column {}".format(column))
-        for column in self.dis_feat:
+        plt.subplots_adjust(wspace=0.3, hspace=0.3)#调整子图间距
+        fig.savefig(os.path.join(self.save_dir, "continue.png"))
+        plt.close(fig)
+
+        row_num = math.ceil(len(self.dis_feat) / col_num)
+        fig, axs = plt.subplots(row_num, col_num, figsize=(36, 24)) 
+        for idx, column in enumerate(self.dis_feat):
+            row = idx // col_num
+            col = idx - row * col_num
             try:
-                self.draw_discrete_feature(column)
+                self.draw_discrete_feature(column, axs[row][col])
             except Exception as e:
+                print(e)
                 print("\033[1;31m [Error]\033[0m wrong discrete column {}".format(column))
+        plt.subplots_adjust(wspace=0.3, hspace=0.6)#调整子图间距
+        fig.savefig(os.path.join(self.save_dir, "discrete.png"))
+        plt.close(fig)
 
     def _df_preprocess(self):
         self.df["SalePrice"] = (self.df["SalePrice"]).round(2)
         # 提出重复样本
         self.df.drop_duplicates()
     
-    def draw_discrete_feature(self, column):
+    def draw_discrete_feature(self, column, ax):
         """初步绘制，离散特征"""
-        fig1, ax = plt.subplots()
+        # fig1, ax = plt.subplots()
         tmp_df = self.df[[column, "SalePrice"]]
 
         # 去除掉出现<3次的特征
@@ -104,30 +123,30 @@ class Drawer():
         width = 0.6
         p1 = ax.bar(x, sub_class_df["mean"].to_list(), width, yerr=sub_class_df["std"].to_list(), label=column)
 
-        title = "{} vs. SalePrice".format(column)
-        ax.set_ylabel('SalePrice (Pound)')
-        ax.set_title(title)
+        # title = "{} vs. SalePrice".format(column)
+        # ax.set_ylabel('SalePrice (Pound)')
+        ax.set_title(column)
         ax.set_xticks(x)
-        ax.set_xticklabels(sub_class_df.index.to_list())
-        ax.bar_label(p1, label_type='center')
-        fig1.savefig(os.path.join(self.save_dir, "{}.png".format(title.replace(" ", "_"))))
-        plt.close(fig1)
+        # ax.set_xticklabels(sub_class_df.index.to_list())
+        # ax.bar_label(p1, label_type='center')
+        # fig1.savefig(os.path.join(self.save_dir, "{}.png".format(title.replace(" ", "_"))))
+        # plt.close(fig1)
 
-    def draw_continue_feature(self, column):
+    def draw_continue_feature(self, column, ax):
         """初步绘制，连续特征"""
         #TODO: 连续特征做分箱处理
-        fig1, ax = plt.subplots()
+        # fig1, ax = plt.subplots()
         sub_df = self.df[[column, "SalePrice"]]
         sub_df = sub_df.sort_values(by=column, ascending=True)
 
         # p1 = plt.plot(sub_df[column], sub_df["SalePrice"])
-        p2 = plt.scatter(sub_df[column], sub_df["SalePrice"], color="red", marker="o", linewidths=0.2)
-        title = '{} vs. SalePrice'.format(column)
-        ax.set_ylabel('SalePrice (Pound)')
-        ax.set_title(title)
-        ax.set_xlabel(column)
-        fig1.savefig(os.path.join(self.save_dir, "{}.png".format(title.replace(" ", "_"))))
-        plt.close(fig1)
+        p2 = ax.scatter(sub_df[column], sub_df["SalePrice"], color="red", marker="o", linewidths=0.2)
+        # title = '{} vs. SalePrice'.format(column)
+        # ax.set_ylabel('SalePrice (Pound)')
+        ax.set_title(column)
+        # ax.set_xlabel(column)
+        # fig1.savefig(os.path.join(self.save_dir, "{}.png".format(title.replace(" ", "_"))))
+        # plt.close(fig1)
 
     def _draw_lot_Area(self):
         pass
