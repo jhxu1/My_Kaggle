@@ -22,8 +22,11 @@ class DataProcessor():
     def _feature_screen(self, df):
         """根据分析做特征筛选"""
         print("\033[1;32m [Info]\033[0m Start feature screen, feature_num: {}, num: {}".format(df.columns.size, df.shape[0]))
+
+        # 构造季度销售量
         df["SeSold"] = df["MoSold"].apply(lambda x: (x-1) // 3)
 
+        # 删除部分特征
         del_feature = ["3SsnPorch", "BsmtHalfBath", "MasVnrArea", "MiscFeature", "MoSold", "PoolArea", "PoolQC", "Utilities", "YrSold", "MiscVal"]
         df = df.drop(del_feature, axis=1)
 

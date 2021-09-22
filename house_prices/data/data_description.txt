@@ -1,3 +1,4 @@
+# 住宅类型
 MSSubClass: Identifies the type of dwelling involved in the sale.	
 
         20	1-STORY 1946 & NEWER ALL STYLES
@@ -17,6 +18,7 @@ MSSubClass: Identifies the type of dwelling involved in the sale.
        180	PUD - MULTILEVEL - INCL SPLIT LEV/FOYER
        190	2 FAMILY CONVERSION - ALL STYLES AND AGES
 
+# 销售的地段？
 MSZoning: Identifies the general zoning classification of the sale.
 		
        A	Agriculture
@@ -27,43 +29,50 @@ MSZoning: Identifies the general zoning classification of the sale.
        RL	Residential Low Density
        RP	Residential Low Density Park 
        RM	Residential Medium Density
-	
+
 LotFrontage: Linear feet of street connected to property
 
+# 地块面积？
 LotArea: Lot size in square feet
 
+# 路面情况
 Street: Type of road access to property
 
        Grvl	Gravel	
        Pave	Paved
-       	
+
+# 小路情况（不重要）
 Alley: Type of alley access to property
 
        Grvl	Gravel
        Pave	Paved
        NA 	No alley access
-		
+
+# 房屋形状（不重要）
 LotShape: General shape of property
 
        Reg	Regular	
        IR1	Slightly irregular
        IR2	Moderately Irregular
        IR3	Irregular
-       
+
+# 房屋平整度（不重要）   
 LandContour: Flatness of the property
 
        Lvl	Near Flat/Level	
        Bnk	Banked - Quick and significant rise from street grade to building
        HLS	Hillside - Significant slope from side to side
        Low	Depression
-		
+
+# 可用能源这些吧？（这个特征比较特殊，得单独看）	
 Utilities: Type of utilities available
 		
        AllPub	All public Utilities (E,G,W,& S)	
        NoSewr	Electricity, Gas, and Water (Septic Tank)
        NoSeWa	Electricity and Gas Only
        ELO	Electricity only	
-	
+
+# 地段？
 LotConfig: Lot configuration
 
        Inside	Inside lot
@@ -71,13 +80,15 @@ LotConfig: Lot configuration
        CulDSac	Cul-de-sac
        FR2	Frontage on 2 sides of property
        FR3	Frontage on 3 sides of property
-	
+
+# 地面平整度（不重要）
 LandSlope: Slope of property
 		
        Gtl	Gentle slope
        Mod	Moderate Slope	
        Sev	Severe Slope
-	
+
+# 城市的地段？
 Neighborhood: Physical locations within Ames city limits
 
        Blmngtn	Bloomington Heights
@@ -129,7 +140,8 @@ Condition2: Proximity to various conditions (if more than one is present)
        PosA	Adjacent to postive off-site feature
        RRNe	Within 200' of East-West Railroad
        RRAe	Adjacent to East-West Railroad
-	
+
+# 住宅类型	
 BldgType: Type of dwelling
 		
        1Fam	Single-family Detached	
@@ -137,7 +149,8 @@ BldgType: Type of dwelling
        Duplx	Duplex
        TwnhsE	Townhouse End Unit
        TwnhsI	Townhouse Inside Unit
-	
+
+# 住宅风格
 HouseStyle: Style of dwelling
 	
        1Story	One story
@@ -148,7 +161,8 @@ HouseStyle: Style of dwelling
        2.5Unf	Two and one-half story: 2nd level unfinished
        SFoyer	Split Foyer
        SLvl	Split Level
-	
+
+# 材料质量
 OverallQual: Rates the overall material and finish of the house
 
        10	Very Excellent
@@ -161,7 +175,8 @@ OverallQual: Rates the overall material and finish of the house
        3	Fair
        2	Poor
        1	Very Poor
-	
+
+# 房屋整体情况
 OverallCond: Rates the overall condition of the house
 
        10	Very Excellent
@@ -174,11 +189,14 @@ OverallCond: Rates the overall condition of the house
        3	Fair
        2	Poor
        1	Very Poor
-		
+
+# 建造日期	
 YearBuilt: Original construction date
 
+# 重建日期
 YearRemodAdd: Remodel date (same as construction date if no remodeling or additions)
 
+# 屋顶形式
 RoofStyle: Type of roof
 
        Flat	Flat
@@ -187,7 +205,8 @@ RoofStyle: Type of roof
        Hip	Hip
        Mansard	Mansard
        Shed	Shed
-		
+
+# 材料形式
 RoofMatl: Roof material
 
        ClyTile	Clay or Tile
@@ -198,7 +217,8 @@ RoofMatl: Roof material
        Tar&Grv	Gravel & Tar
        WdShake	Wood Shakes
        WdShngl	Wood Shingles
-		
+
+# 房屋外饰	
 Exterior1st: Exterior covering on house
 
        AsbShng	Asbestos Shingles
@@ -238,7 +258,8 @@ Exterior2nd: Exterior covering on house (if more than one material)
        VinylSd	Vinyl Siding
        Wd Sdng	Wood Siding
        WdShing	Wood Shingles
-	
+
+# 墙面材料
 MasVnrType: Masonry veneer type
 
        BrkCmn	Brick Common
@@ -246,9 +267,11 @@ MasVnrType: Masonry veneer type
        CBlock	Cinder Block
        None	None
        Stone	Stone
-	
+
+# 墙面积	
 MasVnrArea: Masonry veneer area in square feet
 
+# 外部材料的质量
 ExterQual: Evaluates the quality of the material on the exterior 
 		
        Ex	Excellent
@@ -264,7 +287,8 @@ ExterCond: Evaluates the present condition of the material on the exterior
        TA	Average/Typical
        Fa	Fair
        Po	Poor
-		
+
+# 地下室类型	
 Foundation: Type of foundation
 		
        BrkTil	Brick & Tile
@@ -273,7 +297,8 @@ Foundation: Type of foundation
        Slab	Slab
        Stone	Stone
        Wood	Wood
-		
+
+# 地下室高度
 BsmtQual: Evaluates the height of the basement
 
        Ex	Excellent (100+ inches)	
@@ -282,7 +307,8 @@ BsmtQual: Evaluates the height of the basement
        Fa	Fair (70-79 inches)
        Po	Poor (<70 inches
        NA	No Basement
-		
+
+# 地下室状态
 BsmtCond: Evaluates the general condition of the basement
 
        Ex	Excellent
@@ -291,7 +317,8 @@ BsmtCond: Evaluates the general condition of the basement
        Fa	Fair - dampness or some cracking or settling
        Po	Poor - Severe cracking, settling, or wetness
        NA	No Basement
-	
+
+# 花园墙面
 BsmtExposure: Refers to walkout or garden level walls
 
        Gd	Good Exposure
@@ -364,6 +391,7 @@ Electrical: Electrical system
 
 LowQualFinSF: Low quality finished square feet (all floors)
 
+# 地面面积
 GrLivArea: Above grade (ground) living area square feet
 
 BsmtFullBath: Basement full bathrooms
