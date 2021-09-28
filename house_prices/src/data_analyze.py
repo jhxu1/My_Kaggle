@@ -127,7 +127,7 @@ class Drawer():
         # ax.set_ylabel('SalePrice (Pound)')
         ax.set_title(column)
         ax.set_xticks(x)
-        # ax.set_xticklabels(sub_class_df.index.to_list())
+        ax.set_xticklabels(sub_class_df.index.to_list())
         # ax.bar_label(p1, label_type='center')
         # fig1.savefig(os.path.join(self.save_dir, "{}.png".format(title.replace(" ", "_"))))
         # plt.close(fig1)
@@ -208,6 +208,6 @@ def test():
     drawer.draw_discrete_feature("SeSold")
 
 if __name__ == "__main__":
-    # main()
+    main()
     # test()
-    log_draw()
+    # log_draw()

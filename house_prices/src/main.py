@@ -1,6 +1,7 @@
 from numpy.lib.function_base import average
 import pandas as pd
 import os
+import numpy as np
 from data_process import DataProcessor
 from model import Model, rmsle_cv, AveragingModels
 import pdb
@@ -41,6 +42,7 @@ def main():
 
     x_test = test_df
     y_test = model.predict(x_test)
+    y_test = np.exp(y_test)
 
     assert test_df.shape[0] == 1459, "test df rows {} != 1459".format(test_df.shape[0])
 
